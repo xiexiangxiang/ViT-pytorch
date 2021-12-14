@@ -254,8 +254,9 @@ class Transformer(nn.Module):
         self.encoder = Encoder(config, vis)
 
     def forward(self, input_ids):
-        embedding_output = self.embeddings(input_ids)
-        encoded, attn_weights = self.encoder(embedding_output)
+        with torch.no_grad(): #edit, remove cuda runtime error
+            embedding_output = self.embeddings(input_ids)
+            encoded, attn_weights = self.encoder(embedding_output)
         return encoded, attn_weights
 
 
